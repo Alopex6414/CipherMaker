@@ -228,6 +228,10 @@ void CCipherMakerDlg::InitChildLayOut()
 	m_cDeCryptDlg.SetWindowRect(m_cChildRect);
 	m_cDeCryptDlg.Create(IDD_DIALOG_DECRYPT, this);
 	m_cDeCryptDlg.ShowWindow(SW_HIDE);
+
+	m_cConfigDlg.SetWindowRect(m_cChildRect);
+	m_cConfigDlg.Create(IDD_DIALOG_CONFIG, this);
+	m_cConfigDlg.ShowWindow(SW_HIDE);
 }
 
 //------------------------------------------
@@ -246,14 +250,17 @@ void CCipherMakerDlg::OnTcnSelchangeTabMain(NMHDR *pNMHDR, LRESULT *pResult)
 	case 0:
 		m_cEnCryptDlg.ShowWindow(SW_SHOW);
 		m_cDeCryptDlg.ShowWindow(SW_HIDE);
+		m_cConfigDlg.ShowWindow(SW_HIDE);
 		break;
 	case 1:
 		m_cEnCryptDlg.ShowWindow(SW_HIDE);
 		m_cDeCryptDlg.ShowWindow(SW_SHOW);
+		m_cConfigDlg.ShowWindow(SW_HIDE);
 		break;
 	case 2:
 		m_cEnCryptDlg.ShowWindow(SW_HIDE);
 		m_cDeCryptDlg.ShowWindow(SW_HIDE);
+		m_cConfigDlg.ShowWindow(SW_SHOW);
 		break;
 	default:
 		break;
