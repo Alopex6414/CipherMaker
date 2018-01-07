@@ -1,0 +1,24 @@
+﻿生成启动时间为 2018/1/6 19:34:23。
+     1>项目“E:\HYX\Expolit\CipherMaker\CipherMaker\CipherMaker.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\CipherMaker.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt CipherMakerDlg.cpp DeCryptDlg.cpp EnCryptDlg.cpp
+         CipherMakerDlg.cpp
+         正在生成代码...
+         正在编译...
+         EnCryptDlg.cpp
+         DeCryptDlg.cpp
+         正在生成代码...
+       Link:
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\HYX\Expolit\CipherMaker\Debug\CipherMaker.exe" /INCREMENTAL /NOLOGO /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"E:\HYX\Expolit\CipherMaker\Debug\CipherMaker.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\HYX\Expolit\CipherMaker\Debug\CipherMaker.lib" /MACHINE:X86 Debug\CipherMaker.res
+         Debug\CipherMaker.obj
+         Debug\CipherMakerDlg.obj
+         Debug\ConfigDlg.obj
+         Debug\DeCryptDlg.obj
+         Debug\EnCryptDlg.obj
+         Debug\stdafx.obj
+         CipherMaker.vcxproj -> E:\HYX\Expolit\CipherMaker\Debug\CipherMaker.exe
+     1>已完成生成项目“E:\HYX\Expolit\CipherMaker\CipherMaker\CipherMaker.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:01.12
