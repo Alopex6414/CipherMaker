@@ -93,6 +93,29 @@ void CEnCryptDlg::Construction()
 {
 	m_csImport = L"";
 	m_csExport = L"";
+
+	m_nCheck = 0;
+	memset(m_nArray, 0, 16);
+
+	m_nArray[0] = 170;
+	m_nArray[1] = 187;
+	m_nArray[2] = 204;
+	m_nArray[3] = 221;
+
+	m_nArray[4] = 18;
+	m_nArray[5] = 72;
+	m_nArray[6] = 132;
+	m_nArray[7] = 33;
+
+	m_nArray[8] = 18;
+	m_nArray[9] = 52;
+	m_nArray[10] = 86;
+	m_nArray[11] = 120;
+
+	m_nArray[12] = 255;
+	m_nArray[13] = 255;
+	m_nArray[14] = 255;
+	m_nArray[15] = 255;
 }
 
 // CEnCryptDlg ~初始化窗口形状
@@ -100,6 +123,16 @@ void CEnCryptDlg::InitWindowSharp()
 {
 	SetWindowPos(NULL, m_cWindowRect.left, m_cWindowRect.top, m_cWindowRect.Width(), m_cWindowRect.Height(), SWP_NOACTIVATE | SWP_SHOWWINDOW);
 	GetClientRect(&m_cWindowRect);
+}
+
+// CEnCryptDlg ~设置窗口数据
+void CEnCryptDlg::SetWindowData(int* pArray, int nCheck)
+{
+	m_nCheck = nCheck;
+	for (int i = 0; i < 16; ++i)
+	{
+		m_nArray[i] = *(pArray + i);
+	}
 }
 
 // CEnCryptDlg ~初始化窗口布局
@@ -422,17 +455,24 @@ void CEnCryptDlg::OnBnClickedButtonOk()
 
 		DWORD dwLuckyNumberArr[4] =
 		{
-			0xAABBCCDD,
-			0x12488421,
-			0x12345678,
-			0xFFFFFFFF,
+			0x00000000,
+			0x00000000,
+			0x00000000,
+			0x00000000,
 		};
-
 
 		CPlumCrypt* pCrypt = new CPlumCrypt;
 		char *pArrayOrigin = NULL;
 		char *pArrayEnCrypt = NULL;
 		int nLen = 0;
+
+		for (int i = 0; i < 4; ++i)
+		{
+			dwLuckyNumberArr[i] = m_nArray[4 * i + 0] * (1 << 24)
+								+ m_nArray[4 * i + 1] * (1 << 16)
+								+ m_nArray[4 * i + 2] * (1 << 8)
+								+ m_nArray[4 * i + 3] * (1 << 0);
+		}
 
 		nLen = WideCharToMultiByte(CP_ACP, 0, csOriginPath, -1, NULL, 0, NULL, NULL);
 		pArrayOrigin = new char[nLen + 1];

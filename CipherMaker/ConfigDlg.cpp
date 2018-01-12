@@ -107,6 +107,41 @@ void CConfigDlg::Construction()
 {
 	m_ridUseMsg = 0;
 	m_ridNoUseMsg = 0;
+
+	m_csCheck = L"";
+
+	m_nCheck = 0;
+	memset(m_nArray, 0, 16);
+
+	m_nArray[0] = 170;
+	m_nArray[1] = 187;
+	m_nArray[2] = 204;
+	m_nArray[3] = 221;
+
+	m_nArray[4] = 18;
+	m_nArray[5] = 72;
+	m_nArray[6] = 132;
+	m_nArray[7] = 33;
+
+	m_nArray[8] = 18;
+	m_nArray[9] = 52;
+	m_nArray[10] = 86;
+	m_nArray[11] = 120;
+
+	m_nArray[12] = 255;
+	m_nArray[13] = 255;
+	m_nArray[14] = 255;
+	m_nArray[15] = 255;
+}
+
+// CConfigDlg ~设置窗口数据
+void CConfigDlg::SetWindowData(int* pArray, int nCheck)
+{
+	m_nCheck = nCheck;
+	for (int i = 0; i < 16; ++i)
+	{
+		m_nArray[i] = *(pArray + i);
+	}
 }
 
 // CConfigDlg ~初始化窗口形状
@@ -142,8 +177,8 @@ void CConfigDlg::InitWindowLayOut()
 
 	X += Rect.Width() + 250;
 	Y += 0;
-	GetDlgItem(IDC_RADIO_CONFIG_NOUSE_MSG2)->SetWindowPos(NULL, X, Y, nWidth, nHeight, SWP_NOACTIVATE | SWP_SHOWWINDOW | SWP_NOSIZE);
-	GetDlgItem(IDC_RADIO_CONFIG_NOUSE_MSG2)->GetWindowRect(&Rect);
+	GetDlgItem(IDC_RADIO_CONFIG_NOUSE_MSG)->SetWindowPos(NULL, X, Y, nWidth, nHeight, SWP_NOACTIVATE | SWP_SHOWWINDOW | SWP_NOSIZE);
+	GetDlgItem(IDC_RADIO_CONFIG_NOUSE_MSG)->GetWindowRect(&Rect);
 
 	X = m_cWindowRect.left;
 	Y = m_cWindowRect.top + m_cWindowRect.Height() / 6 + 5;
@@ -351,8 +386,60 @@ void CConfigDlg::InitWindowLayOut()
 // CConfigDlg ~初始化窗口控件布局
 void CConfigDlg::InitWindowItemLayOut()
 {
-	((CButton*)GetDlgItem(IDC_RADIO_CONFIG_USE_MSG))->SetCheck(TRUE);
-	((CButton*)GetDlgItem(IDC_RADIO_CONFIG_NOUSE_MSG2))->SetCheck(FALSE);
+	// 关于CheckBox
+	if (m_nCheck == 0)
+	{
+		((CButton*)GetDlgItem(IDC_RADIO_CONFIG_USE_MSG))->SetCheck(TRUE);
+		((CButton*)GetDlgItem(IDC_RADIO_CONFIG_NOUSE_MSG))->SetCheck(FALSE);
+	}
+	else
+	{
+		((CButton*)GetDlgItem(IDC_RADIO_CONFIG_USE_MSG))->SetCheck(FALSE);
+		((CButton*)GetDlgItem(IDC_RADIO_CONFIG_NOUSE_MSG))->SetCheck(TRUE);
+	}
+
+	// 关于Edit
+	m_edtLucky1.LimitText(2);
+	m_edtLucky2.LimitText(2);
+	m_edtLucky3.LimitText(2);
+	m_edtLucky4.LimitText(2);
+	m_edtLucky5.LimitText(2);
+	m_edtLucky6.LimitText(2);
+	m_edtLucky7.LimitText(2);
+	m_edtLucky8.LimitText(2);
+	m_edtLucky9.LimitText(2);
+	m_edtLucky10.LimitText(2);
+	m_edtLucky11.LimitText(2);
+	m_edtLucky12.LimitText(2);
+	m_edtLucky13.LimitText(2);
+	m_edtLucky14.LimitText(2);
+	m_edtLucky15.LimitText(2);
+	m_edtLucky16.LimitText(2);
+
+	for (int i = 0; i < 16; ++i)
+	{
+		m_csArray[i].Format(L"%x", m_nArray[i]);
+	}
+
+	m_edtLucky1.SetWindowText(m_csArray[0]);
+	m_edtLucky2.SetWindowText(m_csArray[1]);
+	m_edtLucky3.SetWindowText(m_csArray[2]);
+	m_edtLucky4.SetWindowText(m_csArray[3]);
+
+	m_edtLucky5.SetWindowText(m_csArray[4]);
+	m_edtLucky6.SetWindowText(m_csArray[5]);
+	m_edtLucky7.SetWindowText(m_csArray[6]);
+	m_edtLucky8.SetWindowText(m_csArray[7]);
+
+	m_edtLucky9.SetWindowText(m_csArray[8]);
+	m_edtLucky10.SetWindowText(m_csArray[9]);
+	m_edtLucky11.SetWindowText(m_csArray[10]);
+	m_edtLucky12.SetWindowText(m_csArray[11]);
+
+	m_edtLucky13.SetWindowText(m_csArray[12]);
+	m_edtLucky14.SetWindowText(m_csArray[13]);
+	m_edtLucky15.SetWindowText(m_csArray[14]);
+	m_edtLucky16.SetWindowText(m_csArray[15]);
 }
 
 // CConfigDlg ~重绘窗口
@@ -384,10 +471,246 @@ void CConfigDlg::RePaintWindow(CDC& dc)
 void CConfigDlg::OnBnClickedButtonConfigDefault()
 {
 	// TODO:  在此添加控件通知处理程序代码
+
+	// 关于CheckBox
+	((CButton*)GetDlgItem(IDC_RADIO_CONFIG_USE_MSG))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO_CONFIG_NOUSE_MSG))->SetCheck(FALSE);
+
+	// 关于Edit
+	m_edtLucky1.LimitText(2);
+	m_edtLucky2.LimitText(2);
+	m_edtLucky3.LimitText(2);
+	m_edtLucky4.LimitText(2);
+	m_edtLucky5.LimitText(2);
+	m_edtLucky6.LimitText(2);
+	m_edtLucky7.LimitText(2);
+	m_edtLucky8.LimitText(2);
+	m_edtLucky9.LimitText(2);
+	m_edtLucky10.LimitText(2);
+	m_edtLucky11.LimitText(2);
+	m_edtLucky12.LimitText(2);
+	m_edtLucky13.LimitText(2);
+	m_edtLucky14.LimitText(2);
+	m_edtLucky15.LimitText(2);
+	m_edtLucky16.LimitText(2);
+
+	m_edtLucky1.SetWindowText(L"AA");
+	m_edtLucky2.SetWindowText(L"BB");
+	m_edtLucky3.SetWindowText(L"CC");
+	m_edtLucky4.SetWindowText(L"DD");
+
+	m_edtLucky5.SetWindowText(L"12");
+	m_edtLucky6.SetWindowText(L"48");
+	m_edtLucky7.SetWindowText(L"84");
+	m_edtLucky8.SetWindowText(L"21");
+
+	m_edtLucky9.SetWindowText(L"12");
+	m_edtLucky10.SetWindowText(L"34");
+	m_edtLucky11.SetWindowText(L"56");
+	m_edtLucky12.SetWindowText(L"78");
+
+	m_edtLucky13.SetWindowText(L"FF");
+	m_edtLucky14.SetWindowText(L"FF");
+	m_edtLucky15.SetWindowText(L"FF");
+	m_edtLucky16.SetWindowText(L"FF");
+
+	Invalidate(FALSE);
+	UpdateWindow();
 }
 
 // CConfigDlg ~保存
 void CConfigDlg::OnBnClickedButtonConfigSave()
 {
 	// TODO:  在此添加控件通知处理程序代码
+	CString csTextArray[16];
+
+	m_edtLucky1.GetWindowText(csTextArray[0]);
+	m_edtLucky2.GetWindowText(csTextArray[1]);
+	m_edtLucky3.GetWindowText(csTextArray[2]);
+	m_edtLucky4.GetWindowText(csTextArray[3]);
+	m_edtLucky5.GetWindowText(csTextArray[4]);
+	m_edtLucky6.GetWindowText(csTextArray[5]);
+	m_edtLucky7.GetWindowText(csTextArray[6]);
+	m_edtLucky8.GetWindowText(csTextArray[7]);
+	m_edtLucky9.GetWindowText(csTextArray[8]);
+	m_edtLucky10.GetWindowText(csTextArray[9]);
+	m_edtLucky11.GetWindowText(csTextArray[10]);
+	m_edtLucky12.GetWindowText(csTextArray[11]);
+	m_edtLucky13.GetWindowText(csTextArray[12]);
+	m_edtLucky14.GetWindowText(csTextArray[13]);
+	m_edtLucky15.GetWindowText(csTextArray[14]);
+	m_edtLucky16.GetWindowText(csTextArray[15]);
+
+	for (int i = 0; i < 16; ++i)
+	{
+		bool btrue;
+		btrue = AnalysisText(csTextArray[i], &m_nArray[i]);
+		if (!btrue)
+		{
+			m_nArray[0] = 170;
+			m_nArray[1] = 187;
+			m_nArray[2] = 204;
+			m_nArray[3] = 221;
+
+			m_nArray[4] = 18;
+			m_nArray[5] = 72;
+			m_nArray[6] = 132;
+			m_nArray[7] = 33;
+
+			m_nArray[8] = 18;
+			m_nArray[9] = 52;
+			m_nArray[10] = 86;
+			m_nArray[11] = 120;
+
+			m_nArray[12] = 255;
+			m_nArray[13] = 255;
+			m_nArray[14] = 255;
+			m_nArray[15] = 255;
+
+			((CButton*)GetDlgItem(IDC_RADIO_CONFIG_USE_MSG))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO_CONFIG_NOUSE_MSG))->SetCheck(FALSE);
+
+			m_edtLucky1.SetWindowText(L"AA");
+			m_edtLucky2.SetWindowText(L"BB");
+			m_edtLucky3.SetWindowText(L"CC");
+			m_edtLucky4.SetWindowText(L"DD");
+
+			m_edtLucky5.SetWindowText(L"12");
+			m_edtLucky6.SetWindowText(L"48");
+			m_edtLucky7.SetWindowText(L"84");
+			m_edtLucky8.SetWindowText(L"21");
+
+			m_edtLucky9.SetWindowText(L"12");
+			m_edtLucky10.SetWindowText(L"34");
+			m_edtLucky11.SetWindowText(L"56");
+			m_edtLucky12.SetWindowText(L"78");
+
+			m_edtLucky13.SetWindowText(L"FF");
+			m_edtLucky14.SetWindowText(L"FF");
+			m_edtLucky15.SetWindowText(L"FF");
+			m_edtLucky16.SetWindowText(L"FF");
+
+			Invalidate(FALSE);
+			UpdateWindow();
+
+			return;
+		}
+	}
+
+	if (((CButton*)GetDlgItem(IDC_RADIO_CONFIG_USE_MSG))->GetCheck())
+	{
+		m_nCheck = 0;
+	}
+
+	if (((CButton*)GetDlgItem(IDC_RADIO_CONFIG_NOUSE_MSG))->GetCheck())
+	{
+		m_nCheck = 1;
+	}
+
+	MessageBox(L"Save Succeed!", L"Asterisk", MB_OK | MB_ICONASTERISK);
 }
+
+// CConfigDlg ~数据分析
+bool CConfigDlg::AnalysisText(CString cs, int* pCount)
+{
+	char* pArray;
+	int nLen;
+	int nTextCount;
+	int nConvert;
+
+	nTextCount = cs.GetLength();
+
+	if (!nTextCount)
+	{
+		MessageBox(L"Array Can not Be Empty!", L"Warning", MB_OK | MB_ICONWARNING);
+		return false;
+	}
+
+	if (nTextCount != 2)
+	{
+		MessageBox(L"Array Should have 2 Bit!", L"Warning", MB_OK | MB_ICONWARNING);
+		return false;
+	}
+
+	nLen = WideCharToMultiByte(CP_ACP, 0, cs, -1, NULL, 0, NULL, NULL);
+	pArray = new char[nLen + 1];
+	WideCharToMultiByte(CP_ACP, 0, cs, -1, pArray, nLen, NULL, NULL);
+	
+	nLen = strlen(pArray);
+	nConvert = 0;
+	for (int i = 0; i < nLen; ++i)
+	{
+		int Bit;
+
+		if (!((*(pArray + i) >= 'A' && *(pArray + i) <= 'F') || (*(pArray + i) >= '0' && *(pArray + i) <= '9')))
+		{
+			MessageBox(L"Array Number Should in 0~9 or A~F!", L"Warning", MB_OK | MB_ICONWARNING);
+			delete[] pArray;
+			return false;
+		}
+
+		switch (*(pArray + i))
+		{
+		case '0':
+			Bit = 0;
+			break;
+		case '1':
+			Bit = 1;
+			break;
+		case '2':
+			Bit = 2;
+			break;
+		case '3':
+			Bit = 3;
+			break;
+		case '4':
+			Bit = 4;
+			break;
+		case '5':
+			Bit = 5;
+			break;
+		case '6':
+			Bit = 6;
+			break;
+		case '7':
+			Bit = 7;
+			break;
+		case '8':
+			Bit = 8;
+			break;
+		case '9':
+			Bit = 9;
+			break;
+		case 'A':
+			Bit = 10;
+			break;
+		case 'B':
+			Bit = 11;
+			break;
+		case 'C':
+			Bit = 12;
+			break;
+		case 'D':
+			Bit = 13;
+			break;
+		case 'E':
+			Bit = 14;
+			break;
+		case 'F':
+			Bit = 15;
+			break;
+		default:
+			return false;
+			break;
+		}
+
+		nConvert += Bit * (1 << (4 * (1 - i)));
+	}
+
+	*pCount = nConvert;
+
+	delete[] pArray;
+
+	return true;
+}
+

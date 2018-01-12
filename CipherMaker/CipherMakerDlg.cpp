@@ -101,6 +101,8 @@ BOOL CCipherMakerDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
+	Construction();
+	ReadConfigFile();
 	InitWindowSharp();
 	InitWindowLayOut();
 	InitWindowItemLayOut();
@@ -162,6 +164,34 @@ HCURSOR CCipherMakerDlg::OnQueryDragIcon()
 // CCipherMakerDlg ~用户定义函数
 //------------------------------------------
 
+// CCipherMakerDlg ~初始化构造函数
+void CCipherMakerDlg::Construction()
+{
+	m_nCheck = 0;
+	m_csCheck = L"";
+	memset(m_nArray, 0, 16);
+
+	m_nArray[0] = 170;
+	m_nArray[1] = 187;
+	m_nArray[2] = 204;
+	m_nArray[3] = 221;
+
+	m_nArray[4] = 18;
+	m_nArray[5] = 72;
+	m_nArray[6] = 132;
+	m_nArray[7] = 33;
+
+	m_nArray[8] = 18;
+	m_nArray[9] = 52;
+	m_nArray[10] = 86;
+	m_nArray[11] = 120;
+
+	m_nArray[12] = 255;
+	m_nArray[13] = 255;
+	m_nArray[14] = 255;
+	m_nArray[15] = 255;
+}
+
 // CCipherMakerDlg ~初始化窗口形状
 void CCipherMakerDlg::InitWindowSharp()
 {
@@ -222,16 +252,96 @@ void CCipherMakerDlg::InitChildLayOut()
 	m_cChildRect.bottom -= 5;
 
 	m_cEnCryptDlg.SetWindowRect(m_cChildRect);
+	m_cEnCryptDlg.SetWindowData(m_nArray, m_nCheck);
 	m_cEnCryptDlg.Create(IDD_DIALOG_ENCRYPT, this);
 	m_cEnCryptDlg.ShowWindow(SW_SHOW);
 
 	m_cDeCryptDlg.SetWindowRect(m_cChildRect);
+	m_cDeCryptDlg.SetWindowData(m_nArray, m_nCheck);
 	m_cDeCryptDlg.Create(IDD_DIALOG_DECRYPT, this);
 	m_cDeCryptDlg.ShowWindow(SW_HIDE);
 
 	m_cConfigDlg.SetWindowRect(m_cChildRect);
+	m_cConfigDlg.SetWindowData(m_nArray, m_nCheck);
 	m_cConfigDlg.Create(IDD_DIALOG_CONFIG, this);
 	m_cConfigDlg.ShowWindow(SW_HIDE);
+
+	m_cEnCryptDlg.m_nCheck = m_cConfigDlg.m_nCheck;
+	ArrayCopy(m_cConfigDlg.m_nArray, m_cEnCryptDlg.m_nArray, 16);
+
+	m_cDeCryptDlg.m_nCheck = m_cConfigDlg.m_nCheck;
+	ArrayCopy(m_cConfigDlg.m_nArray, m_cDeCryptDlg.m_nArray, 16);
+}
+
+// CCipherMakerDlg ~读取配置文件
+void CCipherMakerDlg::ReadConfigFile()
+{
+	CFileFind File;
+	CString FileName;
+	BOOL IsFileExist;
+
+	GetModuleFileName(AfxGetInstanceHandle(), FileName.GetBufferSetLength(_MAX_PATH + 1), _MAX_PATH);
+	FileName = FileName.Left(FileName.ReverseFind('\\'));
+	FileName += L"\\Config.ini";
+
+	IsFileExist = File.FindFile(FileName);
+	if (!IsFileExist)
+	{
+		return;
+	}
+
+	GetPrivateProfileString(L"CipherMaker Checked", L"Check", L"Can not Read Check Infomation!", m_csCheck.GetBuffer(MAX_PATH), MAX_PATH, FileName);
+	m_csCheck.ReleaseBuffer();
+
+	for (int i = 0; i < 16; ++i)
+	{
+		CString csNumber;
+		csNumber.Format(L"%d", i);
+		GetPrivateProfileString(L"CipherMaker Array", L"Lucky" + csNumber, L"Can not Read Array Infomation!", m_csArray[i].GetBuffer(MAX_PATH), MAX_PATH, FileName);
+		m_csArray[i].ReleaseBuffer();
+	}
+
+	m_nCheck = _ttoi(m_csCheck);
+	for (int i = 0; i < 16; ++i)
+	{
+		m_nArray[i] = _ttoi(m_csArray[i]);
+	}
+
+}
+
+// CCipherMakerDlg ~写入配置文件
+void CCipherMakerDlg::WriteConfigFile()
+{
+	CString FileName;
+	CString csValue;
+
+	m_nCheck = m_cConfigDlg.m_nCheck;
+	ArrayCopy(m_cConfigDlg.m_nArray, m_nArray, 16);
+
+	GetModuleFileName(AfxGetInstanceHandle(), FileName.GetBufferSetLength(_MAX_PATH + 1), _MAX_PATH);
+	FileName = FileName.Left(FileName.ReverseFind('\\'));
+	FileName += L"\\Config.ini";
+
+	csValue.Format(L"%d", m_nCheck);
+	WritePrivateProfileString(L"CipherMaker Checked", L"Check", csValue, FileName);
+	for (int i = 0; i < 16; ++i)
+	{
+		CString csNumber;
+		CString csValue;
+		csNumber.Format(L"%d", i);
+		csValue.Format(L"%d", m_nArray[i]);
+		WritePrivateProfileString(L"CipherMaker Array", L"Lucky" + csNumber, csValue, FileName);
+	}
+
+}
+
+// CCipherMakerDlg ~数组复制
+void CCipherMakerDlg::ArrayCopy(int* pSrc, int* pDest, int nLen)
+{
+	for (int i = 0; i < nLen; ++i)
+	{
+		*(pDest + i) = *(pSrc + i);
+	}
 }
 
 //------------------------------------------
@@ -248,11 +358,17 @@ void CCipherMakerDlg::OnTcnSelchangeTabMain(NMHDR *pNMHDR, LRESULT *pResult)
 	switch (nCurSel)
 	{
 	case 0:
+		m_cEnCryptDlg.m_nCheck = m_cConfigDlg.m_nCheck;
+		ArrayCopy(m_cConfigDlg.m_nArray, m_cEnCryptDlg.m_nArray, 16);
+
 		m_cEnCryptDlg.ShowWindow(SW_SHOW);
 		m_cDeCryptDlg.ShowWindow(SW_HIDE);
 		m_cConfigDlg.ShowWindow(SW_HIDE);
 		break;
 	case 1:
+		m_cDeCryptDlg.m_nCheck = m_cConfigDlg.m_nCheck;
+		ArrayCopy(m_cConfigDlg.m_nArray, m_cDeCryptDlg.m_nArray, 16);
+
 		m_cEnCryptDlg.ShowWindow(SW_HIDE);
 		m_cDeCryptDlg.ShowWindow(SW_SHOW);
 		m_cConfigDlg.ShowWindow(SW_HIDE);
@@ -267,4 +383,13 @@ void CCipherMakerDlg::OnTcnSelchangeTabMain(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 
 	*pResult = 0;
+}
+
+
+void CCipherMakerDlg::OnCancel()
+{
+	// TODO:  在此添加专用代码和/或调用基类
+	WriteConfigFile();
+
+	CDialogEx::OnCancel();
 }

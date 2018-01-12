@@ -15,17 +15,26 @@ public:
 // 成员
 private:
 	CRect m_cWindowRect;
+	
+public:
+	CString m_csArray[16];
+	CString m_csCheck;
+	int m_nArray[16];
+	int m_nCheck;
 
 // 成员函数
 public:
 	void Construction();
 
 	const void SetWindowRect(CRect& Rect) { m_cWindowRect = Rect; }
+	void SetWindowData(int* pArray, int nCheck);
 	void InitWindowSharp();
 	void InitWindowLayOut();
 	void InitWindowItemLayOut();
 
 	void RePaintWindow(CDC& dc);
+
+	bool AnalysisText(CString cs, int* pCount);
 
 // 对话框数据
 	enum { IDD = IDD_DIALOG_CONFIG };

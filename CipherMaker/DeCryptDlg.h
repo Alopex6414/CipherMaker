@@ -19,11 +19,16 @@ private:
 	CString m_csImport;
 	CString m_csExport;
 
+public:
+	int m_nArray[16];
+	int m_nCheck;
+
 // ³ÉÔ±º¯Êý
 public:
 	void Construction();
 
 	const void SetWindowRect(CRect& Rect) { m_cWindowRect = Rect; }
+	void SetWindowData(int* pArray, int nCheck);
 	void InitWindowSharp();
 	void InitWindowLayOut();
 	void InitWindowItemLayOut();
