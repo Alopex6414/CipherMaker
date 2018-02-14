@@ -21,6 +21,7 @@ CConfigDlg::CConfigDlg(CWnd* pParent /*=NULL*/)
 
 CConfigDlg::~CConfigDlg()
 {
+	m_Brush.DeleteObject();
 }
 
 void CConfigDlg::DoDataExchange(CDataExchange* pDX)
@@ -71,6 +72,7 @@ BEGIN_MESSAGE_MAP(CConfigDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_BN_CLICKED(IDC_BUTTON_CONFIG_DEFAULT, &CConfigDlg::OnBnClickedButtonConfigDefault)
 	ON_BN_CLICKED(IDC_BUTTON_CONFIG_SAVE, &CConfigDlg::OnBnClickedButtonConfigSave)
+	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 
@@ -96,6 +98,21 @@ void CConfigDlg::OnPaint()
 	// TODO:  在此处添加消息处理程序代码
 	// 不为绘图消息调用 CDialogEx::OnPaint()
 	RePaintWindow(dc);
+}
+
+HBRUSH CConfigDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// TODO:  在此更改 DC 的任何特性
+	if (nCtlColor == CTLCOLOR_STATIC)
+	{
+		pDC->SetBkColor(RGB(255, 255, 255));
+		return m_Brush;
+	}
+
+	// TODO:  如果默认的不是所需画笔，则返回另一个画笔
+	return hbr;
 }
 
 //------------------------------------------
@@ -132,6 +149,8 @@ void CConfigDlg::Construction()
 	m_nArray[13] = 255;
 	m_nArray[14] = 255;
 	m_nArray[15] = 255;
+
+	m_Brush.CreateSolidBrush(RGB(255, 255, 255));
 }
 
 // CConfigDlg ~设置窗口数据
@@ -713,4 +732,3 @@ bool CConfigDlg::AnalysisText(CString cs, int* pCount)
 
 	return true;
 }
-

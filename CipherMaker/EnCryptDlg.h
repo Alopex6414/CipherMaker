@@ -19,6 +19,8 @@ private:
 	CString m_csImport;
 	CString m_csExport;
 
+	CBrush m_Brush;
+
 public:
 	int m_nArray[16];
 	int m_nCheck;
@@ -62,6 +64,7 @@ public:
 	CButton m_btnCancel;
 	CButton m_btnOk;
 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg void OnBnClickedButtonEncryptOriginpathselect();
 	afx_msg void OnBnClickedButtonEncryptEncryptpathselect();
 	afx_msg void OnBnClickedButtonCancel();

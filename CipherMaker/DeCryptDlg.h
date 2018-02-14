@@ -19,6 +19,8 @@ private:
 	CString m_csImport;
 	CString m_csExport;
 
+	CBrush m_Brush;
+
 public:
 	int m_nArray[16];
 	int m_nCheck;
@@ -60,4 +62,5 @@ public:
 	afx_msg void OnBnClickedButtonDecryptDecryptpathselect();
 	afx_msg void OnBnClickedButtonDecryptCancel();
 	afx_msg void OnBnClickedButton();
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 };
